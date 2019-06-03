@@ -1,0 +1,2 @@
+source ~/.important/important.sh
+export PATH=~/.important/:$PATH

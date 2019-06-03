@@ -1,0 +1,10 @@
+#compdef _go go
+
+function _go {
+    local line
+
+    #_arguments -C "projectName> name of the project to go to"
+    compadd $(getProjects | tr "\n" " ")
+}
+
+#compadd $(getProjects | tr "\n" " ")
