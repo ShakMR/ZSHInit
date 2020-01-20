@@ -1,6 +1,6 @@
-#compdef _go go
+#compdef _goto goto
 
-function _go {
+function _goto {
     local line
 
     #_arguments -C "projectName> name of the project to go to"

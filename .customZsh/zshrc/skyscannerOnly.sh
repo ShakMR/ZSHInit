@@ -11,3 +11,7 @@ syncProdToLocal() {
     echo "Restoring production document into local"
     mongoimport --host localhost --port 27017 --drop --mode=upsert --db sponsored_service --collection $1 /tmp/sponsored/$1
 }
+
+openTunnelDocumentDB() {
+    ssh -i ~/.ssh/sponsored-service -L 27018:sponsored-service.cluster-ccrvmtfiyigq.eu-west-1.docdb.amazonaws.com:27017 ec2-user@10.51.42.41 -N
+}

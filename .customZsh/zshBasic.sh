@@ -5,7 +5,7 @@
 #
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-zshrcFolder=${CUSTOM_ZSH:-$HOME}/zshrc
+zshrcFolder=${CUSTOM_ZSH:-$HOME}/.customZsh/zshrc
 
 echo ${zshrcFolder}
 for file in $(ls ${zshrcFolder}); do

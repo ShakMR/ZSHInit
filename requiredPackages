@@ -1,4 +1,6 @@
 git
-pyenv
+zlib
+python
 node
 fzf
+pip

@@ -16,7 +16,7 @@ checkSystemInstallComm() {
 }
 
 installZsh() {
-    installComm=$(checkSystem)
+    installComm=$(checkSystemInstallComm)
     if [[ $? -eq 0 ]]; then
         ${installComm} zsh
     fi

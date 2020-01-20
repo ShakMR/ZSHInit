@@ -11,7 +11,23 @@ getProjects() {
     cat /tmp/projects_db | rev | cut -d'/' -f1 | rev
 }
 
-go() {
+goto() {
     if [[ ! -f /tmp/projects_db ]]; then updateProjectsDB; fi
-    cd $(cat /tmp/projects_db | grep ${@}$)
+    cd $(cat /tmp/projects_db | grep ${@}\$)
 }
+
+addProject() {
+    projectPath=${PWD};
+
+    if [[ $# -ge 0 ]]; then
+        firstChar=${1[1,1]}
+        if [[ ${firstChar} != "/" ]]; then
+            projectPath=${PWD}/${1}
+        else
+            projectPath=${1}
+        fi
+    fi
+
+    echo ${projectPath} >> /tmp/projects_db
+}
+
