@@ -12,3 +12,8 @@ for file in $(ls ${zshrcFolder}); do
     echo $file
     source ${zshrcFolder}/${file}
 done
+
+autoload -Uz compinit
+compinit
+
+export FPATH=~/.customZsh/completion/:~/.customZsh/zshrc/:$FPATH
