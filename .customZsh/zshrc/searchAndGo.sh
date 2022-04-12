@@ -1,19 +1,20 @@
 export PROJECTS_HOME=~/Projects
+export PROJECTS_DB_PATH=~/.customZsh/projects_db
 
 updateProjectsDB() {
     PROJECTS_DB=$(locate ${PROJECTS_HOME}/*/.git | grep -v node_modules | sed 's/\/.git//')
-    rm -f /tmp/projects_db
-    echo ${PROJECTS_DB} > /tmp/projects_db
+    rm -f ${PROJECTS_DB_PATH}
+    echo ${PROJECTS_DB} > ${PROJECTS_DB_PATH}
 }
 
 getProjects() {
-    if [[ ! -f /tmp/projects_db ]]; then updateProjectsDB; fi
-    cat /tmp/projects_db | rev | cut -d'/' -f1 | rev
+    if [[ ! -f ${PROJECTS_DB_PATH} ]]; then updateProjectsDB; fi
+    cat ${PROJECTS_DB_PATH} | rev | cut -d'/' -f1 | rev
 }
 
 goto() {
-    if [[ ! -f /tmp/projects_db ]]; then updateProjectsDB; fi
-    cd $(cat /tmp/projects_db | grep ${@}\$)
+    if [[ ! -f ${PROJECTS_DB_PATH} ]]; then updateProjectsDB; fi
+    cd $(cat ${PROJECTS_DB_PATH} | grep ${@}\$)
 }
 
 addProject() {
@@ -28,6 +29,6 @@ addProject() {
         fi
     fi
 
-    echo ${projectPath} >> /tmp/projects_db
+    echo ${projectPath} >> ${PROJECTS_DB_PATH}
 }
 

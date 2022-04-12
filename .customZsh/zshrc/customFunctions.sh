@@ -5,3 +5,4 @@ alias generateCert=openssl req -x509 -out localhost.crt -keyout localhost.key \
 
 alias findPortMac="netstat -vanp tcp | grep"
 
+alias findMyIP="curl ipinfo.io"

@@ -5,6 +5,9 @@
 #
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+setopt no_share_history
+unsetopt share_history
+
 zshrcFolder=${CUSTOM_ZSH:-$HOME}/.customZsh/zshrc
 
 echo ${zshrcFolder}

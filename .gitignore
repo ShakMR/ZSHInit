@@ -1,2 +1,8 @@
 .idea/
 importantThings/build/
+**/*/eversports.*
+.customZsh/zshrc/javascript_functions/vendor
+**/*/.yarnrc
+**/*/.yarn
+**/*/moment.js
+.customZsh/projects_db
