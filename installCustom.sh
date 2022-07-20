@@ -12,6 +12,8 @@ esac
 echo "Creating customZsh symlink"
 ln -s ${PWD}/.customZsh ~/.customZsh
 
+echo source ~/.customZsh/zshBasic.sh >> .zshrc
+
 echo "DONE
 
 You can now run
