@@ -20,3 +20,4 @@ autoload -Uz compinit
 compinit
 
 export FPATH=~/.customZsh/completion/:~/.customZsh/zshrc/:$FPATH
+export PROJECTS_HOME=~/Projects
