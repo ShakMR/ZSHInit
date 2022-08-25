@@ -6,3 +6,5 @@ importantThings/build/
 **/*/.yarn
 **/*/moment.js
 .customZsh/projects_db
+
+.customZsh/zshrc/team/*.sh
