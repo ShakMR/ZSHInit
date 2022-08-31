@@ -17,10 +17,9 @@ for file in $(ls ${zshrcFolder}); do
 done
 
 ## WORK RELATED FILES
-echo ${zshrcFolder}/team
-for file in $(ls ${zshrcFolder}); do
+for file in $(ls ${zshrcFolder}/team); do
     echo $file
-    source ${zshrcFolder}/${file}
+    source ${zshrcFolder}/team/${file}
 done
 
 autoload -Uz compinit
