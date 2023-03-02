@@ -2,9 +2,9 @@ export PROJECTS_HOME=~/Projects
 export PROJECTS_DB_PATH=~/.customZsh/projects_db
 
 updateProjectsDB() {
-    PROJECTS_DB=$(locate ${PROJECTS_HOME}/*/.git | grep -v node_modules | sed 's/\/.git//')
-    rm -f ${PROJECTS_DB_PATH}
-    echo ${PROJECTS_DB} > ${PROJECTS_DB_PATH}
+   newCommand=$(find Projects -name .git -type d -prune -not -path "*/node_modules/*" | sed 's/\/.git//')
+   rm -f ${PROJECTS_DB_PATH}
+   echo ${PROJECTS_DB} > ${PROJECTS_DB_PATH}
 }
 
 getProjects() {

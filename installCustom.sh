@@ -10,14 +10,11 @@ $systemName)
 esac
 
 echo "Creating customZsh symlink"
-ln -s ${PWD}/.customZsh ~/.customZsh
+ln -sfn ${PWD}/.customZsh ~/.customZsh
 
-echo source ~/.customZsh/zshBasic.sh >> .zshrc
+echo source ~/.customZsh/zshBasic.sh >> $HOME/.zshrc
 
-echo "DONE
+echo "Updating projects DB"
+updateProjectsDB
 
-You can now run
-
-updateProjectDB
-
-to set up the project list"
+echo "DONE"

@@ -14,3 +14,4 @@ fi
 
 source ~/.customZsh/zshBasic.sh
 
+source /Users/ikea-boari/.customZsh/zshBasic.sh
