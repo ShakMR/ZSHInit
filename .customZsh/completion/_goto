@@ -4,7 +4,9 @@ function _goto {
     local line
 
     #_arguments -C "projectName> name of the project to go to"
-    compadd $(getProjects | tr "\n" " ")
+    projects=$(getProjects | tr "\n" " ")
+    namespaces=$(getNamespaces | tr "\n" " ")
+    compadd $(echo $projects $namespaces | tr " " " ")
 }
 
 #compadd $(getProjects | tr "\n" " ")

@@ -10,16 +10,13 @@ unsetopt share_history
 
 zshrcFolder=${CUSTOM_ZSH:-$HOME}/.customZsh/zshrc
 
-echo ${zshrcFolder}
 for file in $(ls ${zshrcFolder}); do
-    echo $file
-    source ${zshrcFolder}/${file}
+  source ${zshrcFolder}/${file}
 done
 
 ## WORK RELATED FILES
 for file in $(ls ${zshrcFolder}/team); do
-    echo $file
-    source ${zshrcFolder}/team/${file}
+  source ${zshrcFolder}/team/${file}
 done
 
 autoload -Uz compinit
