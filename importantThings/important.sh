@@ -56,7 +56,6 @@ rand() {
 }
 
 enigmatic () {
-
     times=`rand`
     s=90
     infinite=''

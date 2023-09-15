@@ -9,3 +9,5 @@ importantThings/build/
 .customZsh/projects_ns_db
 
 .customZsh/zshrc/team/*.sh
+dist
+node_modules
