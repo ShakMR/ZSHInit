@@ -3,11 +3,11 @@ const showToast = require('./toast');
 const currentPort = window.location.port;
 
 const dev = {
-    host: 'dev.***REMOVED***',
+    host: process.env.QA_HOST,
     port: '3000'
 }
 const qa = {
-    host: 'www.***REMOVED***',
+    host: process.env.DEV_HOST,
     port: '',
 }
 
