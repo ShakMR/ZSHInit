@@ -8,6 +8,10 @@ branchName () {
   git branch | grep "\*" | cut -d' ' -f 2
 }
 
+gitpull () {
+  git pull --ff origin "$(branchName)"
+}
+
 masterC () {
   export PREV_BRANCH="$(branchName)"
   echo "saving changes"

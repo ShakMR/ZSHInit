@@ -1,3 +1,6 @@
+const showToast = require('./toast');
+const {isElementVisible} = require('./elementUtils');
+
 const DELAY_MS = 500;
 
 const elements = {
@@ -5,11 +8,7 @@ const elements = {
     entryRow: '[data-automation-id=wd-ActiveListRowEditor-New]',
     inputElements: '[data-automation-id=standaloneTimeWidget] > input',
     okButton: '[data-automation-id=wd-CommandButton_uic_okButton]'
-}   
-
-const isElementVisible = function( elem ) {
-    return !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length );
-};
+}
 
 
 const getTabButtonsForWorkingDays = (workingDaysArray) => {
@@ -18,7 +17,7 @@ const getTabButtonsForWorkingDays = (workingDaysArray) => {
 }
 
 const selectTab = async (tab) => {
-    console.log("Selecting tab", tab.innerText);
+    showToast(`Selecting tab ${tab.innerText}`);
     tab.click();
     await userDelay(DELAY_MS);
 }
@@ -60,7 +59,9 @@ const main = async () => {
         end: 17,
     };
 
-    const tabButtons = getTabButtonsForWorkingDays(workingDays);
+    const selectedDays = prompt('Enter working days (lun, mar, mié, jue, vie)', workingDays.join(',')).split(',');
+
+    const tabButtons = getTabButtonsForWorkingDays(selectedDays);
 
     for (const tab of tabButtons) {
         selectTab(tab);

@@ -38,3 +38,10 @@ compinit
 
 export FPATH=~/.customZsh/completion/:~/.customZsh/zshrc/:$FPATH
 export PROJECTS_HOME=~/Projects
+
+cd() {
+  builtin cd "$@" || exit
+  if [[ -f .nvmrc ]]; then
+    nvm use > /dev/null
+  fi
+}
