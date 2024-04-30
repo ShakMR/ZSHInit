@@ -11,3 +11,4 @@ importantThings/build/
 .customZsh/zshrc/team/*.sh
 dist
 node_modules
+bookmarklets/fixtures/*

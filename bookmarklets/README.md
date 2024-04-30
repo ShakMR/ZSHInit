@@ -1,15 +1,12 @@
-# 🚀 Welcome to your new awesome project!
+# My bookmarklets stash
 
-This project has been created using **webpack-cli**, you can now run
+This is a collection of bookmarklets that I use to make my life easier.
+
+## How to use them
 
 ```
+npm i
 npm run build
 ```
 
-or
-
-```
-yarn build
-```
-
-to bundle your application
+Then you can copy the content of the 'dist/*.bookmarklet.js' files and paste them in your browser's bookmark manager.
