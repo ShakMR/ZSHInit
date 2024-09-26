@@ -14,6 +14,7 @@ const config = {
     workday: './src/workday_timesheets.js',
     switch: './src/switchQADEV.js',
     panel: './src/eventPanel.js',
+    aws: './src/aws_account_selector.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -32,13 +33,18 @@ const config = {
       },
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        loader: "raw-loader",
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader","css-loader"],
       },
     ],
   },
   optimization: {
-    minimize: true,
+    minimize: false,
   },
+  devtool: false,
 };
 
 module.exports = () => {

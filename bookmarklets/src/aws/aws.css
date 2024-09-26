@@ -1,0 +1,83 @@
+h2 {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+#aws-accounts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    width: 75%;
+    margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+    #aws-accounts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 900px) {
+    #aws-accounts {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#aws-accounts .accountWrapper {
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: .5rem;
+    transition: box-shadow 0.3s;
+
+    opacity: 0; /* Start with opacity 0 */
+    animation: fadeIn 0.3s forwards; /* Apply the fade-in animation */
+    animation-delay: var(--animation-delay, 0s); /* Use CSS variable for delay */
+}
+
+#aws-accounts .accountWrapper:nth-child(n) {
+    --animation-delay: calc(0.1s * (var(--n) - 1)); /* Increment delay for each child */
+}
+
+.accountWrapper:hover {
+    box-shadow: 0 0 5px #ffd9b3;
+}
+
+.roleButton {
+    display: block;
+    padding: 1rem;
+    border: 0;
+    border-radius: .5rem;
+    text-align: center;
+    cursor: pointer;
+    min-width: 70px;
+    transition: box-shadow 0.3s;
+    box-shadow: 0 0 0;
+}
+
+.roleButton:hover {
+    box-shadow: 0 0 5px grey;
+}
+
+.roleButton:active {
+    box-shadow: 0 0 1px grey;
+}
+
+.roleButton sub {
+    visibility: hidden;
+    position: absolute;
+}
+
+.rolesContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+}

@@ -66,9 +66,21 @@ const createFloatingDiv = (id, onClose, content, show=false) => {
 const replaceTemplate = (htmlString, params) => {
   let finalHtml = htmlString;
   for (const key in params) {
-    finalHtml = finalHtml.replace(`{{${key}}}`, params[key]);
+    finalHtml = finalHtml.replaceAll(`{{${key}}}`, params[key]);
   }
   return finalHtml;
+}
+
+const createDiv = (id) => {
+  const wrapper = document.createElement('div');
+  if (id) {
+    wrapper.setAttribute('id', id);
+  }
+  return wrapper;
+}
+
+const hideElement = (element) => {
+  element.style.display = 'none';
 }
 
 module.exports = {
@@ -77,5 +89,7 @@ module.exports = {
   createFloatingIcon,
   extractURLParam,
   replaceTemplate,
-  createFloatingDiv
+  createFloatingDiv,
+  createDiv,
+  hideElement,
 }
