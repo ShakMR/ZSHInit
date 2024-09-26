@@ -18,7 +18,12 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: (pathData) => {
+      if (pathData.chunk.name === 'aws') {
+        return '../extensions/aws/[name].js';
+      }
+      return '[name].js';
+    }
   },
   plugins: [
     new BookmarkletOutputWebpackPlugin({newFile: true}),
