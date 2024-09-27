@@ -8,19 +8,25 @@ const DotEnv = require('dotenv-webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+const isExtension = {
+  aws: true,
+  switch: true,
+  panel: false,
+  workday: false,
+};
 
 const config = {
   entry: {
     workday: './src/workday_timesheets.js',
-    switch: './src/switchQADEV.js',
+    switch: './src/switchQADEV/main.js',
     panel: './src/eventPanel.js',
     aws: './src/aws_account_selector.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: (pathData) => {
-      if (pathData.chunk.name === 'aws') {
-        return '../extensions/aws/[name].js';
+      if (isExtension[pathData.chunk.name]) {
+        return `../extensions/${pathData.chunk.name}/content.js`;
       }
       return '[name].js';
     }
@@ -44,6 +50,14 @@ const config = {
         test: /\.css$/i,
         use: ["style-loader","css-loader"],
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      }
     ],
   },
   optimization: {

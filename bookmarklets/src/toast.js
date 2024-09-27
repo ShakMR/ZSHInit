@@ -1,4 +1,4 @@
-const showToast = (text) => {
+export const showToast = (text) => {
     const div = document.createElement('div');
     div.setAttribute('id', 'switch-toast');
     div.style.position = 'fixed';
@@ -21,5 +21,3 @@ const showToast = (text) => {
         }, 500);
     }, 2000);
 }
-
-module.exports = showToast;

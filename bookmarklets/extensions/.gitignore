@@ -1,4 +1,3 @@
-aws/*
-
-!aws/icons/*
-!aws/manifest.json
+*/*
+!*/icons/*
+!*/manifest.json
