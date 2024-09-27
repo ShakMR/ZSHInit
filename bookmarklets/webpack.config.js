@@ -20,7 +20,7 @@ const config = {
     workday: './src/workday_timesheets.js',
     switch: './src/switchQADEV/main.js',
     panel: './src/eventPanel.js',
-    aws: './src/aws_account_selector.js',
+    aws: './src/aws/main.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

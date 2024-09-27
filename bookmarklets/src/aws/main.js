@@ -24,8 +24,8 @@ const colorsMap = {
 const getAllAccounts = () => {
   const accountWrappers = getAccountWrappers();
   const accounts = accountWrappers
-      .map(getAccountInfo)
-      .sort((a, b) => a.service.localeCompare(b.service));
+    .map(getAccountInfo)
+    .sort((a, b) => a.service.localeCompare(b.service));
   return groupAccountsBasedOnName(accounts);
 }
 
@@ -54,10 +54,9 @@ const addAccountButtons = (container, accounts) => {
   });
 }
 
-const main = () => {
+export const main = () => {
   const accounts = getAllAccounts();
   const container = createDiv('aws-accounts');
-  let i = 0;
   const projects = Object.keys(accounts);
   for (const serviceName of projects) {
     const serviceAccounts = accounts[serviceName];
