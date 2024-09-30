@@ -1,0 +1,87 @@
+<div id="days-selector" class="daysSelector__wrapper">
+    <style>
+        .daysSelector__wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .daysSelector__label {
+            font-size: 12px;
+        }
+
+        .daysSelector__label:hover {
+            cursor: pointer;
+        }
+
+        .daysSelector__labelWrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .daysSelector__title {
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .daysSelector__number {
+            padding: .5rem;
+        }
+        .daysSelector__number input {
+            width: 4rem;
+        }
+
+        .daysSelector__buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+    </style>
+    <p class="daysSelector__title">Choose days to fill</p>
+    <label class="daysSelector__labelWrapper">
+        <span class="daysSelector__label">L</span>
+        <input type="checkbox" name="1"/>
+    </label>
+    <label class="daysSelector__labelWrapper">
+        <span class="daysSelector__label">M</span>
+        <input type="checkbox" name="2"/>
+    </label>
+    <label class="daysSelector__labelWrapper">
+        <span class="daysSelector__label">X</span>
+        <input type="checkbox" name="3"/>
+    </label>
+    <label class="daysSelector__labelWrapper">
+        <span class="daysSelector__label">J</span>
+        <input type="checkbox" name="4"/>
+    </label>
+    <label class="daysSelector__labelWrapper">
+        <span class="daysSelector__label">V</span>
+        <input type="checkbox" name="5"/>
+    </label>
+    <p class="daysSelector__title">Choose hours</p>
+    <label class="daysSelector__labelWrapper daysSelector__number">
+        <span class="daysSelector__label">Start</span>
+        <input type="number" name="start" value="9"/>
+    </label>
+    <label class="daysSelector__labelWrapper daysSelector__number">
+        <span class="daysSelector__label">End</span>
+        <input type="number" name="end" value="17"/>
+    </label>
+    <div class="daysSelector__buttons">
+        <button id="save-prefs">Save pref</button>
+        <button id="set-times">Set</button>
+    </div>
+    <script>
+        activeDays = daySelector.getActiveDays();
+        workingHours = daySelector.getActiveHours();
+        document.querySelectorAll('#days-selector input[type="checkbox"]').forEach(checkbox => {
+            if (activeDays.includes(checkbox.name)) {
+                checkbox.checked = true;
+            }
+        });
+        document.querySelector('#days-selector input[name="start"]').value = workingHours.start;
+        document.querySelector('#days-selector input[name="end"]').value = workingHours.end;
+    </script>
+</div>

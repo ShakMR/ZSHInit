@@ -1,17 +1,17 @@
-import {getTemplateString, TemplateNames} from './aws/templates.js';
+import {getTemplateString, TemplateNames} from './templates.js';
 import {
   getAccountWrappers, getRolesContainer
-} from "./aws/selectors";
-import {clickSignIn} from "./aws/signIn";
-import {createDiv} from "./elementUtils";
-import {randomFloatBetween} from "./aws/utils";
-import {getAccountInfo, groupAccountsBasedOnName} from "./aws/accounts";
+} from "./selectors";
+import {clickSignIn} from "./signIn";
+import {createDiv} from "../elementUtils";
+import {randomFloatBetween} from "./utils";
+import {getAccountInfo, groupAccountsBasedOnName} from "./accounts";
 import {
   addClickListener,
   createElement,
   createElementWithWrapper,
   replaceForm
-} from "./aws/dom";
+} from "./dom";
 
 const colorsMap = {
   prod: '#a3d9ff',    // Light blue

@@ -1,5 +1,5 @@
-const showToast = require('./toast');
-const {isElementVisible} = require('./elementUtils');
+const {showToast} = require('../toast');
+const {isElementVisible} = require('../elementUtils');
 
 const DELAY_MS = 500;
 
@@ -13,7 +13,7 @@ const elements = {
 
 const getTabButtonsForWorkingDays = (workingDaysArray) => {
     return Array.from(document.querySelector(elements.tabBar).children)
-        .filter(tabEl => workingDaysArray.some((day) => tabEl.innerHTML.includes(day) && isElementVisible(tabEl)));
+        .filter(((tabEl, index) => workingDaysArray[index] && isElementVisible(tabEl)));
 }
 
 const selectTab = async (tab) => {
@@ -29,8 +29,8 @@ const writeInput = async (input, time) => {
     await userDelay(DELAY_MS/10);
     input.value = time;
     await userDelay(DELAY_MS/10);
-    await input.dispatchEvent(new Event('change', {bubbles: true}));
-    await input.dispatchEvent(new Event('blur'));
+    input.dispatchEvent(new Event('change', {bubbles: true}));
+    input.dispatchEvent(new Event('blur'));
     await userDelay(DELAY_MS);
 }
 
@@ -52,14 +52,9 @@ const clickOkButton = () => {
     document.querySelector('[data-automation-id=wd-CommandButton_uic_okButton]').click();
 }
 
-const main = async () => {
-    const workingDays = ['lun', 'mar', 'mié', 'jue', 'vie'];
-    const workingHours = {
-        start: 9,
-        end: 17,
-    };
-
-    const selectedDays = prompt('Enter working days (lun, mar, mié, jue, vie)', workingDays.join(',')).split(',');
+export const writeTimeTable = async () => {
+    const selectedDays = daySelector.getActiveDays();
+    const workingHours = daySelector.getActiveHours();
 
     const tabButtons = getTabButtonsForWorkingDays(selectedDays);
 
@@ -71,5 +66,3 @@ const main = async () => {
 
     clickOkButton();
 }
-
-main();

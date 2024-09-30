@@ -20,6 +20,15 @@ const createImg = (iconImg) => {
   return img;
 }
 
+export const createButton =(id, onClick, cta, classNames=[id]) => {
+  const button = document.createElement('button');
+  button.setAttribute('id', id);
+  button.addEventListener('click', onClick);
+  button.innerText = cta;
+  classNames.forEach(className => button.classList.add(className));
+  return button;
+}
+
 export const createIconButton = (id, iconImg, onClick, classNames=[id]) => {
   const div = createDiv(id);
   div.addEventListener('click', onClick);
@@ -100,3 +109,8 @@ export const hideElement = (element) => {
   element.style.display = 'none';
 }
 
+export const createElementFromTemplate = (template, data) => {
+  const div = document.createElement('div');
+  div.innerHTML = replaceTemplate(template, data);
+  return div.firstChild;
+}

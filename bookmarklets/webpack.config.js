@@ -12,12 +12,12 @@ const isExtension = {
   aws: true,
   switch: true,
   panel: false,
-  workday: false,
+  workday: true,
 };
 
 const config = {
   entry: {
-    workday: './src/workday_timesheets.js',
+    workday: './src/workday/main.js',
     switch: './src/switchQADEV/main.js',
     panel: './src/eventPanel.js',
     aws: './src/aws/main.js',
