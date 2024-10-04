@@ -17,3 +17,13 @@ unalias cd
 cd() {
   builtin cd "$@"; ls -lFah; tabTitle ${PWD##*/}; winTitle ${PWD/#"$HOME" /~};
 }
+
+convertVideoToMp4() {
+  if [ -z "$1" ] || [ ! -f "$1" ]; then
+    echo "Usage: convertMovToMp4 <file>"
+    return 1
+  fi
+
+  local filename="${1%.*}"
+  ffmpeg -i "$1" -vcodec h264 -acodec aac "${filename}.mp4";
+}

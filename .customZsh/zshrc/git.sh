@@ -19,6 +19,14 @@ masterC () {
   git checkout master && git fetch && git pull origin master
 }
 
+gomain () {
+  export PREV_BRANCH="$(branchName)"
+  echo "Previous branch stored: $PREV_BRANCH"
+  git stash
+  echo "Changes stashed"
+  git checkout main && git fetch && git pull origin main
+}
+
 backC () {
   git checkout "$PREV_BRANCH"
 }

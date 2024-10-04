@@ -30,6 +30,7 @@ done
 
 ## WORK RELATED FILES
 for file in $(ls ${zshrcFolder}/team); do
+  [[ ${file} == .* ]] && continue
   source ${zshrcFolder}/team/${file}
 done
 
