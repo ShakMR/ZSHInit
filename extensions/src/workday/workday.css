@@ -21,6 +21,11 @@
 .workdayTimesheetsDragger {
     width: 20px;
     height: 20px;
+    transition: transform 1.3s;
+}
+
+#workday-timesheets-panel.show .workdayTimesheetsDragger{
+    transform: rotateY(540deg) rotateX(359deg);
 }
 
 img {

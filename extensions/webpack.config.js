@@ -18,7 +18,7 @@ const isExtension = {
 const config = {
   entry: {
     workday: './src/workday/main.js',
-    switch: './src/switchQADEV/main.js',
+    switch: './src/switch/main.js',
     panel: './src/eventPanel.js',
     aws: './src/aws/main.js',
   },
@@ -32,7 +32,6 @@ const config = {
     }
   },
   plugins: [
-    new BookmarkletOutputWebpackPlugin({newFile: true}),
     new IgnorePlugin({resourceRegExp: /server_data.json/}),
     new DotEnv(),
   ],

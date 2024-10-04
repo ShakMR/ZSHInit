@@ -5,6 +5,7 @@
             flex-wrap: wrap;
             justify-content: center;
             margin: 10px 0;
+            max-width: 300px;
         }
 
         .daysSelector__label {
@@ -73,15 +74,16 @@
         <button id="save-prefs">Save pref</button>
         <button id="set-times">Set</button>
     </div>
-    <script>
-        activeDays = daySelector.getActiveDays();
-        workingHours = daySelector.getActiveHours();
-        document.querySelectorAll('#days-selector input[type="checkbox"]').forEach(checkbox => {
-            if (activeDays.includes(checkbox.name)) {
-                checkbox.checked = true;
-            }
-        });
-        document.querySelector('#days-selector input[name="start"]').value = workingHours.start;
-        document.querySelector('#days-selector input[name="end"]').value = workingHours.end;
-    </script>
+<!--    <script>-->
+<!--        activeDays = daySelector.getActiveDays();-->
+<!--        workingHours = daySelector.getActiveHours();-->
+<!--        document.querySelectorAll('#days-selector input[type="checkbox"]').forEach(checkbox => {-->
+<!--            if (activeDays.includes(checkbox.name)) {-->
+<!--                checkbox.checked = true;-->
+<!--            }-->
+<!--        });-->
+<!--        console.log(workingHours);-->
+<!--        document.querySelector('#days-selector input[name="start"]').value = workingHours.start;-->
+<!--        document.querySelector('#days-selector input[name="end"]').value = workingHours.end;-->
+<!--    </script>-->
 </div>

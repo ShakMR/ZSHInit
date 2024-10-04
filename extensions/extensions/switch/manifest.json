@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "EB QA/DEV Switch",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "A Chrome extension to switch between QA and Dev environments (EB-UI)",
   "permissions": [
     "activeTab",
@@ -9,8 +9,12 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://*.evbqa.com/*"],
-      "js": ["./content.js"]
+      "matches": [
+        "https://*.evbqa.com/*"
+      ],
+      "js": [
+        "./content.js"
+      ]
     }
   ],
   "action": {

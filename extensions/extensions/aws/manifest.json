@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AWS Account Selector",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "A Chrome extension to select AWS accounts.",
   "permissions": [
     "activeTab",
@@ -9,8 +9,12 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://signin.aws.amazon.com/saml"],
-      "js": ["./content.js"]
+      "matches": [
+        "https://signin.aws.amazon.com/saml"
+      ],
+      "js": [
+        "./content.js"
+      ]
     }
   ],
   "action": {
@@ -18,6 +22,6 @@
       "16": "icons/cube.png",
       "48": "icons/cube.png",
       "128": "icons/cube.png"
-    },
+    }
   }
 }

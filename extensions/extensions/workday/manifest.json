@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Workday timetable filler",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "A Chrome extension to fill in the timetable in Workday",
   "permissions": [
     "activeTab",
@@ -9,8 +9,12 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://www.myworkday.com/*"],
-      "js": ["./content.js"]
+      "matches": [
+        "https://www.myworkday.com/*"
+      ],
+      "js": [
+        "./content.js"
+      ]
     }
   ],
   "action": {

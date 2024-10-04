@@ -25,6 +25,7 @@ const addListenersForInputBoxes = (container) => {
     const inputs = container.querySelectorAll('input[type="number"]');
     inputs.forEach(input => {
         input.addEventListener('change', ({target}) => setStartOrEndTime(target.name, parseInt(target.value)));
+        input.value = daySelector.times[input.name];
     });
 }
 
