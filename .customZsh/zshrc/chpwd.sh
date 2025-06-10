@@ -1,7 +1,7 @@
 # Activate virtual environment if it is present
 
 # Define chpwd function
-function chpwd() {
+function chpwd-env() {
   # Check if the current directory is a virtual environment
   if [[ -d ".venv" ]]; then
     # Check if the virtual environment is already activated
@@ -36,6 +36,3 @@ function chpwd() {
     fi
   fi
 }
-
-# Set the chpwd function to be autoloaded
-autoload -Uz chpwd

@@ -5,7 +5,6 @@ export EDITOR="${VISUAL}"
 #
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
 function prompt_arch() {
   if [ $(arch) = 'i386' ]; then
     p10k segment -b blue -f white -t "$(arch)"
@@ -24,6 +23,8 @@ unsetopt share_history
 
 zshrcFolder=${CUSTOM_ZSH:-$HOME}/.customZsh/zshrc
 
+autoload -U add-zsh-hook
+
 for file in $(ls ${zshrcFolder}); do
   source ${zshrcFolder}/${file}
 done
@@ -36,6 +37,8 @@ done
 
 autoload -Uz compinit
 compinit
+
+add-zsh-hook chpwd set_git_tab_title
 
 export FPATH=~/.customZsh/completion/:~/.customZsh/zshrc/:$FPATH
 export PROJECTS_HOME=~/Projects
