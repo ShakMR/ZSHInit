@@ -18,31 +18,34 @@ _getCurrentBranch() {
 # Get the base branch of the current branch
 _getBaseBranch() {
     local current_branch="$1"
-    local base_branch=""
-    
-    # Try to find the base branch by looking at merge-base
-    if [[ -n "$current_branch" && "$current_branch" != "main" && "$current_branch" != "master" ]]; then
-        # Get all branches that contain commits from current branch
-        local branches=$(git branch -r --contains $(git rev-parse HEAD) | grep -v "$current_branch" | sed 's/origin\///')
-        
-        # Find the most recent base branch
-        for branch in $branches; do
-            if [[ "$branch" == "main" || "$branch" == "master" ]]; then
-                base_branch="$branch"
-                break
-            fi
-        done
-        
-        # If no main/master found, try to find the immediate parent
-        if [[ -z "$base_branch" ]]; then
-            local parent=$(git show-branch | grep '*' | grep -v "$current_branch" | head -1 | sed 's/.*\[\(.*\)\].*/\1/' | sed 's/[\^~].*//')
-            if [[ -n "$parent" ]]; then
-                base_branch="$parent"
+    local best_parent=""
+    local best_ts=0
+
+    if [[ -z "$current_branch" || "$current_branch" == "main" || "$current_branch" == "master" ]]; then
+        echo ""
+        return
+    fi
+
+    # Find the parent branch by looking for the most recent ancestor branch
+    for branch in $(git for-each-ref --format='%(refname:short)' refs/heads/); do
+        if [[ "$branch" == "$current_branch" ]]; then
+            continue
+        fi
+
+        local merge_base=$(git merge-base "$current_branch" "$branch")
+        [[ -z "$merge_base" ]] && continue
+
+        # If the merge base is the head of the other branch, it's a candidate parent
+        if [[ "$merge_base" == "$(git rev-parse "$branch")" ]]; then
+            local ts=$(git show -s --format=%ct "$merge_base")
+            if (( ts > best_ts )); then
+                best_ts=$ts
+                best_parent=$branch
             fi
         fi
-    fi
-    
-    echo "$base_branch"
+    done
+
+    echo "$best_parent"
 }
 
 # Save changes and go to base branch
@@ -97,11 +100,59 @@ goBack() {
     git checkout "$PREV_BRANCH"
     
     # Ask if user wants to pop stash
-    read -q "REPLY?Pop stashed changes? (y/N) "
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        git stash pop
+    if [[ -n "$(git stash list)" ]]; then
+        echo -e "${YELLOW}You have stashed changes:${NC}"
+        git stash show -p stash@{0}
+        echo # for a newline
+
+        read -q "REPLY?Pop stashed changes? (y/N) "
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            git stash pop
+        fi
+    else
+        echo -e "${GREEN}No stashed changes to apply.${NC}"
     fi
+}
+
+# Save changes and go to the main branch (main/master)
+goToMain() {
+    local current_branch="$(_getCurrentBranch)"
+
+    # Determine main branch name
+    local main_branch="main"
+    if ! git show-ref --verify --quiet refs/heads/main; then
+        if git show-ref --verify --quiet refs/heads/master; then
+            main_branch="master"
+        else
+            echo -e "${RED}Neither main nor master branch found${NC}"
+            return 1
+        fi
+    fi
+
+    if [[ "$current_branch" == "$main_branch" ]]; then
+        echo -e "${YELLOW}Already on $main_branch. Pulling latest changes.${NC}"
+        git pull origin "$main_branch"
+        return 0
+    fi
+
+    echo -e "${BLUE}Current branch: $current_branch${NC}"
+
+    # Store current branch for later return
+    export PREV_BRANCH="$current_branch"
+    echo -e "${GREEN}Previous branch stored: $PREV_BRANCH${NC}"
+
+    # Stash changes
+    echo -e "${YELLOW}Stashing changes...${NC}"
+    git stash
+
+    # Checkout main branch and update
+    echo -e "${BLUE}Checking out $main_branch...${NC}"
+    git checkout "$main_branch"
+    git fetch
+    git pull origin "$main_branch"
+
+    echo -e "${GREEN}Successfully moved to $main_branch${NC}"
 }
 
 # Rebase current branch from specified base
@@ -237,6 +288,9 @@ git-manage() {
         "base"|"go-base")
             goToBase
             ;;
+        "main"|"go-main")
+            goToMain
+            ;;
         "back"|"return")
             goBack
             ;;
@@ -255,6 +309,7 @@ git-manage() {
             echo
             echo -e "${YELLOW}Commands:${NC}"
             echo -e "  base, go-base    - Go to base branch (stash + checkout)"
+            echo -e "  main, go-main    - Go to main/master branch (stash + checkout)"
             echo -e "  back, return     - Return to previous branch"
             echo -e "  rebase <base>    - Rebase current branch from specified base"
             echo -e "  cascade          - Cascade rebase from main (A from main, B from A)"
@@ -263,6 +318,7 @@ git-manage() {
             echo
             echo -e "${BLUE}Examples:${NC}"
             echo -e "  git-manage base           # Go to base branch"
+            echo -e "  git-manage main           # Go to main/master branch"
             echo -e "  git-manage rebase main    # Rebase from main"
             echo -e "  git-manage cascade        # Cascade rebase"
             echo -e "  git-manage commits        # Show last commits"
@@ -277,6 +333,7 @@ git-manage() {
 
 # Aliases for quick access
 alias gb='git-manage base'
+alias gmain='git-manage main'
 alias gback='git-manage back'
 alias grebase='git-manage rebase'
 alias gcascade='git-manage cascade'
