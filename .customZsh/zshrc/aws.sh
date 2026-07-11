@@ -180,3 +180,5 @@ removeStacks() {
     aws cloudformation delete-stack --no-cli-pager --stack-name ${stacks[$index]}
   done
 }
+
+alias grepSaml='cat ~/.saml2aws | grep -e "\[" | grep'

@@ -44,7 +44,7 @@ export FPATH=~/.customZsh/completion/:~/.customZsh/zshrc/:$FPATH
 export PROJECTS_HOME=~/Projects
 
 cd() {
-  builtin cd "$@" || exit
+  builtin cd "$@" || return
   if [[ -f .nvmrc ]]; then
     nvm use > /dev/null
   fi

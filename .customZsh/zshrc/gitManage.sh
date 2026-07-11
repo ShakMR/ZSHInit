@@ -159,36 +159,50 @@ goToMain() {
 rebaseFrom() {
     local base_branch="$1"
     local current_branch="$(_getCurrentBranch)"
-    
+
     if [[ -z "$base_branch" ]]; then
         echo -e "${RED}Please specify a base branch${NC}"
         echo -e "${BLUE}Usage: rebaseFrom <base-branch>${NC}"
         return 1
     fi
-    
+
     if [[ "$current_branch" == "$base_branch" ]]; then
         echo -e "${RED}Cannot rebase $current_branch from itself${NC}"
         return 1
     fi
-    
+
     echo -e "${BLUE}Rebasing $current_branch from $base_branch...${NC}"
-    
+
+    # Stash changes if the working directory is dirty
+    local did_stash=false
+    if [[ -n "$(git status --porcelain)" ]]; then
+        echo -e "${YELLOW}Stashing changes...${NC}"
+        git stash
+        did_stash=true
+    fi
+
     # First, go to base branch and update it
     export PREV_BRANCH="$current_branch"
-    git stash
     git checkout "$base_branch"
     git fetch
     git pull origin "$base_branch"
-    
+
     # Then rebase current branch from updated base
     git checkout "$current_branch"
     git rebase "$base_branch"
-    
-    # Pop stash if there were changes
-    if [[ -n "$(git stash list)" ]]; then
-        git stash pop
+
+    # Pop stash if we created one and user agrees
+    if [[ "$did_stash" == "true" ]]; then
+        echo -e "${YELLOW}You have stashed changes from before the rebase:${NC}"
+        git stash show -p stash@{0}
+        echo # for a newline
+        read -q "REPLY?Pop stashed changes? (y/N) "
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            git stash pop
+        fi
     fi
-    
+
     echo -e "${GREEN}Successfully rebased $current_branch from $base_branch${NC}"
 }
 
@@ -196,23 +210,31 @@ rebaseFrom() {
 cascadeRebase() {
     local current_branch="$(_getCurrentBranch)"
     local base_branch="$(_getBaseBranch "$current_branch")"
-    
+
     if [[ -z "$base_branch" ]]; then
         echo -e "${RED}No base branch found for $current_branch${NC}"
         return 1
     fi
-    
+
     if [[ "$current_branch" == "main" || "$current_branch" == "master" ]]; then
         echo -e "${RED}Cannot cascade rebase main/master branch${NC}"
         return 1
     fi
-    
+
     echo -e "${BLUE}Performing cascade rebase for $current_branch...${NC}"
     echo -e "${BLUE}Base branch: $base_branch${NC}"
-    
+
     # Store current branch
     export PREV_BRANCH="$current_branch"
-    
+
+    # Stash changes if the working directory is dirty
+    local did_stash=false
+    if [[ -n "$(git status --porcelain)" ]]; then
+        echo -e "${YELLOW}Stashing changes...${NC}"
+        git stash
+        did_stash=true
+    fi
+
     # Step 1: Update main/master
     local main_branch="main"
     if ! git show-ref --verify --quiet refs/heads/main; then
@@ -223,13 +245,12 @@ cascadeRebase() {
             return 1
         fi
     fi
-    
+
     echo -e "${YELLOW}Step 1: Updating $main_branch...${NC}"
-    git stash
     git checkout "$main_branch"
     git fetch
     git pull origin "$main_branch"
-    
+
     # Step 2: Rebase base branch from main
     if [[ "$base_branch" != "$main_branch" ]]; then
         echo -e "${YELLOW}Step 2: Rebase $base_branch from $main_branch...${NC}"
@@ -237,17 +258,24 @@ cascadeRebase() {
         git rebase "$main_branch"
         git push --force-with-lease origin "$base_branch"
     fi
-    
+
     # Step 3: Rebase current branch from updated base branch
     echo -e "${YELLOW}Step 3: Rebase $current_branch from $base_branch...${NC}"
     git checkout "$current_branch"
     git rebase "$base_branch"
-    
-    # Pop stash if there were changes
-    if [[ -n "$(git stash list)" ]]; then
-        git stash pop
+
+    # Pop stash if we created one and user agrees
+    if [[ "$did_stash" == "true" ]]; then
+        echo -e "${YELLOW}You have stashed changes from before the rebase:${NC}"
+        git stash show -p stash@{0}
+        echo # for a newline
+        read -q "REPLY?Pop stashed changes? (y/N) "
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            git stash pop
+        fi
     fi
-    
+
     echo -e "${GREEN}Successfully completed cascade rebase${NC}"
 }
 

@@ -15,3 +15,4 @@ extensions/fixtures/*
 .env
 
 packed
+.aider*
