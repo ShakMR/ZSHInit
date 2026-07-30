@@ -180,3 +180,47 @@ removeStacks() {
     aws cloudformation delete-stack --no-cli-pager --stack-name ${stacks[$index]}
   done
 }
+
+awsconsole() {
+  # Print a console sign-in link for whatever account the CLI is currently
+  # pointed at, so you can jump from a `gandalf aws <account> <region> <role>`
+  # session straight into the browser without going through the SSO portal.
+  #
+  # Note: this feeds the *active* credentials to the federation endpoint rather
+  # than calling GetFederationToken, which is not allowed from a role session
+  # (SSO/gandalf credentials are assumed-role). The link lasts ~15 minutes and
+  # grants console access as that role - don't share it.
+  #
+  # Usage: awsconsole [-o|--open] [console_url]
+  local openInBrowser=0
+  if [ "$1" = "-o" ] || [ "$1" = "--open" ]; then
+    openInBrowser=1
+    shift
+  fi
+
+  local destination="${1:-https://console.aws.amazon.com/console/home}"
+
+  local credentials=$(aws configure export-credentials --format process 2>/dev/null)
+  if [ -z "$credentials" ]; then
+    echo "No usable AWS credentials. Run 'gandalf aws <account> <region> <role>' first."
+    return 1
+  fi
+
+  local session=$(jq -r '{sessionId: .AccessKeyId, sessionKey: .SecretAccessKey, sessionToken: .SessionToken} | tojson | @uri' <<< "$credentials")
+  local signinToken=$(curl -s "https://signin.aws.amazon.com/federation?Action=getSigninToken&Session=${session}" | jq -r '.SigninToken // empty')
+
+  if [ -z "$signinToken" ]; then
+    echo "Could not get a signin token - the current credentials may have expired."
+    return 1
+  fi
+
+  local loginUrl="https://signin.aws.amazon.com/federation?Action=login&Issuer=awsconsole&Destination=$(jq -Rr @uri <<< "$destination")&SigninToken=${signinToken}"
+
+  echo "Account: $(aws sts get-caller-identity --query 'Account' --output text 2>/dev/null) (link valid ~15 minutes)"
+  echo "$loginUrl"
+
+  if [ $openInBrowser -eq 1 ]; then
+    open "$loginUrl"
+  fi
+}
+
