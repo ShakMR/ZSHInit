@@ -6,7 +6,7 @@ function _goto {
     #_arguments -C "projectName> name of the project to go to"
     projects=$(getProjects | tr "\n" " ")
     namespaces=$(getNamespaces | tr "\n" " ")
-    compadd $(echo $projects $namespaces | tr " " " ")
+    compadd -M 'm:{a-zA-Z}={A-Za-z}' $(echo $projects $namespaces | tr " " " ")
 }
 
 #compadd $(getProjects | tr "\n" " ")
