@@ -13,5 +13,3 @@ fi
 # Customize to your needs..
 
 source ~/.customZsh/zshBasic.sh
-
-source /Users/ikea-boari/.customZsh/zshBasic.sh

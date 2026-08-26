@@ -40,9 +40,10 @@ compinit
 
 add-zsh-hook chpwd set_git_tab_title
 
-export FPATH=~/.customZsh/completion/:~/.customZsh/zshrc/:$FPATH
+export FPATH="~/.customZsh/completion/:~/.customZsh/zshrc/:$FPATH"
 export PROJECTS_HOME=~/Projects
 
+unalias cd &>/dev/null
 cd() {
   builtin cd "$@" || exit
   if [[ -f .nvmrc ]]; then
