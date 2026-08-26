@@ -13,10 +13,10 @@ tabTitle() { echo -ne "\033]0;"$*"\007"; }
 winTitle() { echo -ne "\033]2;"$*"\007"; }
 
 # Alias 'cd' to list directory and set title
-unalias cd
-cd() {
-  builtin cd "$@"; ls -lFah; tabTitle ${PWD##*/}; winTitle ${PWD/#"$HOME" /~};
-}
+#unalias cd
+#cd() {
+#  builtin cd "$@"; ls -lFah; tabTitle ${PWD##*/}; winTitle ${PWD/#"$HOME" /~};
+#}
 
 convertVideoToMp4() {
   if [ -z "$1" ] || [ ! -f "$1" ]; then

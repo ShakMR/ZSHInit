@@ -12,6 +12,13 @@ esac
 echo "Creating customZsh symlink"
 ln -sfn ${PWD}/.customZsh ~/.customZsh
 
+echo "Installing Vim configuration"
+if [[ -e "$HOME/.vimrc" && ! -L "$HOME/.vimrc" ]]; then
+  echo "A regular ~/.vimrc already exists; leaving it unchanged"
+else
+  ln -sfn "${PWD}/.vimrc" "$HOME/.vimrc"
+fi
+
 echo source ~/.customZsh/zshBasic.sh >> $HOME/.zshrc
 
 echo "Updating projects DB"
