@@ -3,7 +3,7 @@
 setopt ERR_EXIT NO_UNSET PIPE_FAIL
 
 repo_dir=${0:A:h}
-config_dir="$repo_dir/prezto-config"
+config_dir="$repo_dir/config"
 backup_root="$HOME/.zshinit-prezto-backups"
 backup_dir="$backup_root/$(date +%Y%m%d-%H%M%S)-$$"
 

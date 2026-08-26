@@ -3,7 +3,7 @@
 setopt ERR_EXIT NO_UNSET PIPE_FAIL
 
 repo_dir=${0:A:h}
-config_dir="$repo_dir/prezto-config"
+config_dir="$repo_dir/config"
 
 mkdir -p "$config_dir"
 
